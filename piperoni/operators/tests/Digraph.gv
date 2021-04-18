@@ -1,0 +1,20 @@
+digraph {
+	A [label=Pipe3]
+	B [label=Pipe1]
+	C [label=Pipe2]
+	D [label=pipe1_raw shape=rectangle]
+	E [label=pipe2_raw shape=rectangle]
+	F [label=pipe3_raw shape=rectangle]
+	G [label=pipe3_output2 shape=diamond]
+	H [label=pipe2_output2 shape=diamond]
+	I [label=pipe3_output1 shape=diamond]
+	B -> A
+	B -> C
+	C -> A
+	D -> B
+	E -> C
+	F -> A
+	A -> G
+	C -> H
+	A -> I
+}

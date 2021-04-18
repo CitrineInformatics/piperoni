@@ -1,0 +1,33 @@
+language: python
+python:
+- '3.7'
+- '3.8'
+install:
+- pip install -U -r requirements.txt
+- pip install --no-deps -e .
+script:
+- pytest piperoni
+- black --check piperoni
+- cd docs; make html; cd ..;
+- touch ./docs/build/html/.nojekyll
+# only run the validate-version-bump.sh script on PR builds against develop, since those have access to a "develop" reference to git show the version
+# following https://docs.travis-ci.com/user/environment-variables/#convenience-variables
+# the pull request isn't set to true if its a PR; its just set to false if its not.
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_BRANCH" == "develop" ]; then bash ./scripts/validate-version-bump.sh; fi
+deploy:
+- provider: pages
+  skip_cleanup: true
+  github_token: "$GH_SECRET_TOKEN"
+  keep_history: true
+  local_dir: "./docs/_build/html/"
+  on:
+    branch: 'main'
+    python: '3.7' # only need this to run once
+- provider: pypi
+  user: CitrineInformatics
+  password: "$PYPI_PASSWORD"
+  distributions: sdist bdist_wheel
+  skip_existing: true
+  on:
+    branch: 'main' 
+

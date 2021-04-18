@@ -1,0 +1,7 @@
+Procurement: "proc1: name"
+Identity: "proc1|mat1: name"
+Measurement: "mat1|meas1: name"
+Band gap: "meas1|prop1: Band Gap"
+uncertainty in band gap: "meas1|prop2: Band Gap uncertainty"
+Crystallinity: "meas1|prop3: Crystallinity"
+Color: "meas1|prop4: Color"
