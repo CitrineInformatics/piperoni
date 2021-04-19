@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>1. Quickstart &#8212; Piperoni 3.0.6 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Operators" href="operators/index.html" />
+    <link rel="prev" title="Welcome to Piperoni’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="quickstart">
+<span id="id1"></span><h1><span class="section-number">1. </span>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<section id="creating-operators">
+<h2><span class="section-number">1.1. </span>Creating Operators<a class="headerlink" href="#creating-operators" title="Permalink to this headline">¶</a></h2>
+<p>Below are a few Operators that can be run in a Pipe for an ETL project:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.transform_operator</span> <span class="kn">import</span> <span class="n">TransformOperator</span>
+
+<span class="k">class</span> <span class="nc">IntToStr</span><span class="p">(</span><span class="n">TransformOperator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Invalid transformer. Changes the types.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">IntToInt</span><span class="p">(</span><span class="n">TransformOperator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Valid transformer. Types are consistent.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-and-running-a-pipe">
+<h2><span class="section-number">1.2. </span>Creating and Running a Pipe<a class="headerlink" href="#creating-and-running-a-pipe" title="Permalink to this headline">¶</a></h2>
+<p>The Operators above are run through the pipe below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+
+<span class="c1"># initialize operators</span>
+<span class="n">step1</span> <span class="o">=</span> <span class="n">StrToInt</span><span class="p">()</span>
+<span class="n">step2</span> <span class="o">=</span> <span class="n">IntToStr</span><span class="p">()</span>
+
+<span class="c1"># initialize pipe</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">([</span><span class="n">step1</span><span class="p">,</span> <span class="n">step2</span><span class="p">])</span>
+
+<span class="c1"># run pipe with input; get final data</span>
+<span class="n">final_data</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="end-to-end-csv-manipulation-example">
+<h2><span class="section-number">1.3. </span>End To End CSV Manipulation Example<a class="headerlink" href="#end-to-end-csv-manipulation-example" title="Permalink to this headline">¶</a></h2>
+<p>Take an example CSV that looks like the following:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Color</p></th>
+<th class="head"><p>RGBColor</p></th>
+<th class="head"><p>RGBValue</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>darkorchid</p></td>
+<td><p>red</p></td>
+<td><p>153</p></td>
+</tr>
+<tr class="row-odd"><td><p>darkorchid</p></td>
+<td><p>green</p></td>
+<td><p>50</p></td>
+</tr>
+<tr class="row-even"><td><p>darkorchid</p></td>
+<td><p>blue</p></td>
+<td><p>204</p></td>
+</tr>
+</tbody>
+</table>
+<p>The CSV is saved in a file in the root directory called “color.csv”. The following is a walk through example of how to extract the CSV, manipulate it so that each color is a row, and save the csv to a new file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.extract.extract_file.csv_</span> <span class="kn">import</span> <span class="n">CSVExtractor</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.transform_operator</span> <span class="kn">import</span> <span class="n">TransformOperator</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span> <span class="k">as</span> <span class="n">osp</span>
+
+
+<span class="c1"># Add kwargs for pandas pivot_table</span>
+<span class="k">class</span> <span class="nc">PivotDf</span><span class="p">(</span><span class="n">TransformOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+
+<span class="n">simplePipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">([</span>
+    <span class="c1"># input is the filepath</span>
+    <span class="n">CSVExtractor</span><span class="p">(),</span>
+
+    <span class="c1"># input_ is being passed in from the CSVExtractor() output, and the args defined here are for pivot_table</span>
+    <span class="n">PivotDf</span><span class="p">(</span><span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;RGBValue&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;Color&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;RGBColor&quot;</span><span class="p">)</span>
+<span class="p">],</span>
+    <span class="c1"># logging in root directory</span>
+    <span class="n">logging_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1">## first input</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="s1">&#39;colors.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># to view transformed csv</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">simplePipe</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that the table has been pivoted, the new CSV will look like the following:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Color</p></th>
+<th class="head"><p>blue</p></th>
+<th class="head"><p>green</p></th>
+<th class="head"><p>red</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>darkorchid</p></td>
+<td><p>204</p></td>
+<td><p>50</p></td>
+<td><p>153</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CitrineInformatics&repo=piperoni&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-operators">1.1. Creating Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-and-running-a-pipe">1.2. Creating and Running a Pipe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#end-to-end-csv-manipulation-example">1.3. End To End CSV Manipulation Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operators/index.html">2. Operators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operators/extractors.html">2.1. Extractors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/transformers.html">2.2. Transformers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/casters.html">2.3. Casters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines.html">3. Pipes and Pipelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipelines.html#pipes">3.1. Pipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pipelines.html#pipelines">3.2. Pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">4. Logging</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Piperoni’s documentation!</a></li>
+      <li>Next: <a href="operators/index.html" title="next chapter"><span class="section-number">2. </span>Operators</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Citrine Informatics.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/quickstart.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

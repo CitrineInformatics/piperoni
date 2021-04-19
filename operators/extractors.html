@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2.1. Extractors &#8212; Piperoni 3.0.6 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.2. Transformers" href="transformers.html" />
+    <link rel="prev" title="2. Operators" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="extractors">
+<span id="id1"></span><h1><span class="section-number">2.1. </span>Extractors<a class="headerlink" href="#extractors" title="Permalink to this headline">¶</a></h1>
+<p>Extractors are operators that read data from files. The are essentially Casters because the input
+is always a string, and the output is usually another datatype. Below are examples of using
+extractors in <a class="reference internal" href="../pipelines.html#pipes"><span class="std std-ref">Pipe</span></a> objects.</p>
+<section id="csvextractor">
+<h2><span class="section-number">2.1.1. </span>CSVExtractor<a class="headerlink" href="#csvextractor" title="Permalink to this headline">¶</a></h2>
+<p>The CSVExtractor is used to read a csv file and return the data in a pandas DataFrame.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.extract.extract_file.csv_</span> <span class="kn">import</span> <span class="n">CSVExtractor</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+
+<span class="n">extractor_pipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">CSVExtractor</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">extracted_data</span> <span class="o">=</span> <span class="n">extractor_pipe</span><span class="p">(</span><span class="s2">&quot;path/to/file.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="excelextractor">
+<h2><span class="section-number">2.1.2. </span>ExcelExtractor<a class="headerlink" href="#excelextractor" title="Permalink to this headline">¶</a></h2>
+<p>The ExcelExtractor is used to read an excel file and return the data in a pandas DataFrame.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.extract.extract_file.excel</span> <span class="kn">import</span> <span class="n">ExcelExtractor</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+
+<span class="n">extractor_pipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">ExcelExtractor</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">extracted_data</span> <span class="o">=</span> <span class="n">extractor_pipe</span><span class="p">(</span><span class="s2">&quot;path/to/file.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="jsonextractor">
+<h2><span class="section-number">2.1.3. </span>JSONExtractor<a class="headerlink" href="#jsonextractor" title="Permalink to this headline">¶</a></h2>
+<p>The JSONExtractor is used to read a json file and return the data in a pandas DataFrame.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.extract.extract_file.json_</span> <span class="kn">import</span> <span class="n">JSONExtractor</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+
+<span class="n">extractor_pipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">JSONExtractor</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">extracted_data</span> <span class="o">=</span> <span class="n">extractor_pipe</span><span class="p">(</span><span class="s2">&quot;path/to/file.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-extractors">
+<h2><span class="section-number">2.1.4. </span>Custom Extractors<a class="headerlink" href="#custom-extractors" title="Permalink to this headline">¶</a></h2>
+<p>You may very often need to make your own custom extractor which will be a superclass of any of the
+above classes or the base FileExtractor. You need to define your own <code class="docutils literal notranslate"><span class="pre">transform</span></code> method that reads
+the data, transforms it, and returns it in some fashion.</p>
+<p>Below is an example of a custom extractor using the base FileExtractor. It reads a csv separated by
+tabs, downscopes to a few specific columns, and returns a pandas DataFrame:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.extract.extract_file.base</span> <span class="kn">import</span> <span class="n">FileExtractor</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="k">class</span> <span class="nc">MyCustomExtractor</span><span class="p">(</span><span class="n">FileExtractor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parses a cif file. This is a demo, and does not really work. &quot;&quot;&quot;</span>
+        <span class="n">raw_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sepstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_file</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;journal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_file</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+        <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_file</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span>
+        <span class="n">output_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_df</span>
+
+<span class="n">extractor_pipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">MyCustomExtractor</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">extracted_data</span> <span class="o">=</span> <span class="n">extractor_pipe</span><span class="p">(</span><span class="s2">&quot;path/to/file.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CitrineInformatics&repo=piperoni&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">1. Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#creating-operators">1.1. Creating Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#creating-and-running-a-pipe">1.2. Creating and Running a Pipe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#end-to-end-csv-manipulation-example">1.3. End To End CSV Manipulation Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">2. Operators</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. Extractors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformers.html">2.2. Transformers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="casters.html">2.3. Casters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">3. Pipes and Pipelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pipelines.html#pipes">3.1. Pipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pipelines.html#pipelines">3.2. Pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../logging.html">4. Logging</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html"><span class="section-number">2. </span>Operators</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter"><span class="section-number">2. </span>Operators</a></li>
+      <li>Next: <a href="transformers.html" title="next chapter"><span class="section-number">2.2. </span>Transformers</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Citrine Informatics.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/operators/extractors.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

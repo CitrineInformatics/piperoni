@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>3. Pipes and Pipelines &#8212; Piperoni 3.0.6 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Logging" href="logging.html" />
+    <link rel="prev" title="2.3. Casters" href="operators/casters.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pipes-and-pipelines">
+<span id="id1"></span><h1><span class="section-number">3. </span>Pipes and Pipelines<a class="headerlink" href="#pipes-and-pipelines" title="Permalink to this headline">¶</a></h1>
+<p>Pipes are made up of operators which linearly transform data. Pipelines are made up of Pipes which
+can converge and diverge. They represent entire data pipelines. All operators must be wrapped in a Pipe.</p>
+<p>Piperoni Pipelining Diagram:</p>
+<img alt="_images/pipeline.png" class="align-center" src="_images/pipeline.png" />
+<section id="pipes">
+<span id="id2"></span><h2><span class="section-number">3.1. </span>Pipes<a class="headerlink" href="#pipes" title="Permalink to this headline">¶</a></h2>
+<p>Pipes <em>can</em> begin with an <a class="reference internal" href="operators/extractors.html#extractors"><span class="std std-ref">Extractor</span></a>, and can contain one or more
+<a class="reference internal" href="operators/transformers.html#transformers"><span class="std std-ref">Transformers</span></a>. <strong>`Pipes` should represent the transformation of a single file or object.</strong>
+All operators must be wrapped in a Pipe. In order to handle multiple files and/or objects, multiple <cite>Pipes</cite> should be combined into a
+Pipeline.</p>
+<p>Below is an example of a Pipe constructed of a CSVExtractor, and three custom transformers:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">piperoni.operators.extract.extract_file.csv_</span> <span class="kn">import</span> <span class="n">CSVExtractor</span>
+<span class="kn">from</span> <span class="nn">my_project.operators</span> <span class="kn">import</span> <span class="n">Transformer1</span><span class="p">,</span> <span class="n">Transformer2</span><span class="p">,</span> <span class="n">Transformer3</span>
+<span class="kn">from</span> <span class="nn">piperoni.operators.pipe</span> <span class="kn">import</span> <span class="n">Pipe</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">my_pipe</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+   <span class="p">[</span>
+      <span class="n">CSVExtractor</span><span class="p">(),</span>
+      <span class="n">Transformer1</span><span class="p">(),</span>
+      <span class="n">Transformer2</span><span class="p">(),</span>
+      <span class="n">Transformer3</span><span class="p">()</span>
+   <span class="p">],</span>
+   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;My pipe&#39;</span>
+<span class="p">)</span>
+
+<span class="n">final_object</span> <span class="o">=</span> <span class="n">my_pipe</span><span class="p">(</span><span class="s2">&quot;path/to/input.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pipelines">
+<span id="id3"></span><h2><span class="section-number">3.2. </span>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h2>
+<p>Pipelines are an optional encapsulation around multiple Pipes and are required for branching
+functionality. They represent entire data pipelines of multiple inputs and/or outputs. The Pipeline
+object provides functionality to pass outputs of Pipes as inputs to other Pipes, provide caching of
+outputs in case of multiple dependence, and providing branching through <a class="reference internal" href="operators/casters.html#casters"><span class="std std-ref">CastOperators</span></a>.</p>
+<p>Transforms that connect to a pipeline can either pass a regular data type, or a PipelineData type.
+PipelineData is very similar to a dict and can be used as such. Note that if a transform is
+splitting its output, it should return a PipelineData object. Also note that a transform
+being fed multiple inputs by the Pipeline should expect a PipelineData object as its input type.</p>
+<p>Pipeline objects need to be defined using three dicts:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">`inputs_dict`</span></code>, A dict where keys are Pipes and values are strings or a list of strings of unique labels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">`outputs_dict`</span></code>, A dict where keys are Pipes and values are strings or a list of strings of unique labels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">`raw_inputs`</span></code>, A dict where keys are Pipes and values are inputs to those Pipes.</p></li>
+</ol>
+<p>You can also visualize your Pipeline with the <code class="docutils literal notranslate"><span class="pre">`visualize`</span></code> method. <code class="docutils literal notranslate"><span class="pre">`visualize`</span></code> has one optional argument, <code class="docutils literal notranslate"><span class="pre">`full`</span></code> (<code class="docutils literal notranslate"><span class="pre">`False`</span></code> by default).
+If <code class="docutils literal notranslate"><span class="pre">`full</span> <span class="pre">==</span> <span class="pre">False`</span></code>, your visulization will collapse each <code class="docutils literal notranslate"><span class="pre">`Pipe`</span></code>, making a more compact visulization.
+If <code class="docutils literal notranslate"><span class="pre">`full</span> <span class="pre">==</span> <span class="pre">True`</span></code>, each operator within each <code class="docutils literal notranslate"><span class="pre">`Pipe`</span></code> will be displayed on the output visulization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PrintOperator</span><span class="p">(</span><span class="n">PassthroughOperator</span><span class="p">):</span>
+   <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">input_</span>
+
+
+<span class="k">class</span> <span class="nc">IncrementOperator</span><span class="p">(</span><span class="n">TransformOperator</span><span class="p">):</span>
+   <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received </span><span class="si">{</span><span class="n">input_</span><span class="si">}</span><span class="s2">, passing </span><span class="si">{</span><span class="n">input_</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">input_</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="k">class</span> <span class="nc">SumOperator</span><span class="p">(</span><span class="n">CastOperator</span><span class="p">):</span>
+   <span class="nd">@property</span>
+   <span class="k">def</span> <span class="nf">input_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">PipelineData</span>
+
+   <span class="nd">@property</span>
+   <span class="k">def</span> <span class="nf">output_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="nb">int</span>
+
+   <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">):</span>
+      <span class="n">to_sum</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Summing </span><span class="si">{</span><span class="n">to_sum</span><span class="si">}</span><span class="s2">, returning </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">to_sum</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">to_sum</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">OneVsRestSplitOperator</span><span class="p">(</span><span class="n">CastOperator</span><span class="p">):</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+   <span class="nd">@property</span>
+   <span class="k">def</span> <span class="nf">input_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="nb">int</span>
+
+   <span class="nd">@property</span>
+   <span class="k">def</span> <span class="nf">output_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">PipelineData</span>
+
+   <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received </span><span class="si">{</span><span class="n">input_</span><span class="si">}</span><span class="s2">, splitting into </span><span class="si">{</span><span class="mi">1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">input_</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_output1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_output2&quot;</span><span class="p">:</span> <span class="n">input_</span> <span class="o">-</span> <span class="mi">1</span><span class="p">}</span>
+
+<span class="n">pipe1</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+   <span class="p">[</span><span class="n">IncrementOperator</span><span class="p">(),</span> <span class="n">IncrementOperator</span><span class="p">(),</span> <span class="n">IncrementOperator</span><span class="p">()],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pipe1&quot;</span><span class="p">)</span>
+
+<span class="n">pipe2</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+   <span class="p">[</span><span class="n">SumOperator</span><span class="p">(),</span> <span class="n">IncrementOperator</span><span class="p">(),</span> <span class="n">OneVsRestSplitOperator</span><span class="p">(</span><span class="s2">&quot;pipe2&quot;</span><span class="p">),],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pipe2&quot;</span><span class="p">,)</span>
+
+<span class="n">pipe3</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">(</span>
+   <span class="p">[</span><span class="n">SumOperator</span><span class="p">(),</span> <span class="n">OneVsRestSplitOperator</span><span class="p">(</span><span class="s2">&quot;pipe3&quot;</span><span class="p">)],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pipe3&quot;</span><span class="p">)</span>
+
+<span class="c1"># ----------------------------------------</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="n">pipe1</span><span class="p">:</span> <span class="s2">&quot;pipe1_raw&quot;</span><span class="p">,</span>
+   <span class="n">pipe2</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pipe1_output&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe2_raw&quot;</span><span class="p">],</span>
+   <span class="n">pipe3</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pipe1_output&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe2_output1&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe3_raw&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="n">pipe1</span><span class="p">:</span> <span class="s2">&quot;pipe1_output&quot;</span><span class="p">,</span>
+   <span class="n">pipe2</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pipe2_output1&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe2_output2&quot;</span><span class="p">],</span>
+   <span class="n">pipe3</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pipe3_output1&quot;</span><span class="p">,</span> <span class="s2">&quot;pipe3_output2&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">raws</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pipe1_raw&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;pipe2_raw&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;pipe3_raw&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">}</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">raws</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CitrineInformatics&repo=piperoni&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#creating-operators">1.1. Creating Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#creating-and-running-a-pipe">1.2. Creating and Running a Pipe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#end-to-end-csv-manipulation-example">1.3. End To End CSV Manipulation Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operators/index.html">2. Operators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operators/extractors.html">2.1. Extractors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/transformers.html">2.2. Transformers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators/casters.html">2.3. Casters</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Pipes and Pipelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pipes">3.1. Pipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pipelines">3.2. Pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">4. Logging</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="operators/casters.html" title="previous chapter"><span class="section-number">2.3. </span>Casters</a></li>
+      <li>Next: <a href="logging.html" title="next chapter"><span class="section-number">4. </span>Logging</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Citrine Informatics.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pipelines.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
