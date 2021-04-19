@@ -113,3 +113,9 @@ the current state of the docstrings in the source code.
 One of the outstanding features of sphinx is its support for arbitrarily organized documentation
 materials such as tutorials, introductions, and other context providing content. These items should
 be stored in source control under the `docs/source` directory in properly formatted `.rst` files.
+
+## Deployment
+
+Travis [is configured](https://github.com/CitrineInformatics/piperoni/blob/main/.travis.yml)
+to deploy the `main` branch to [PyPI](https://pypi.org/project/piperoni/)
+and [Github Pages](https://citrineinformatics.github.io/piperoni/index.html).
