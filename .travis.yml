@@ -19,7 +19,7 @@ deploy:
   skip_cleanup: true
   github_token: "$GH_SECRET_TOKEN"
   keep_history: true
-  local_dir: "./docs/_build/html/"
+  local_dir: "./docs/build/html/"
   on:
     branch: 'main'
     python: '3.7' # only need this to run once
