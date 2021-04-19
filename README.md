@@ -15,7 +15,7 @@ pip install git+ssh://git@github.com/CitrineInformatics/piperoni.git
 
 # Documentation
 
-Detailed instructions on installation and usage can be found in the complete [piperoni docs](https://docs.corp.citrine.io/piperoni/index.html)
+Detailed instructions on installation and usage can be found in the complete [piperoni docs](https://citrineinformatics.github.io/piperoni/)
 
 ## Contributing
 
