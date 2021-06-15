@@ -12,7 +12,7 @@ Custom Casters
 ==============
 
 Below is an example of a custom caster that expects a dict as an input and a pandas DataFrame as an
-output. Its transformation creates a DaraFrame from the dictionary input.
+output. Its transformation creates a DataFrame from the dictionary input.
 
 .. code-block:: python
 

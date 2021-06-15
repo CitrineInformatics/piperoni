@@ -22,7 +22,7 @@ Pipes *can* begin with an :ref:`Extractor <extractors>`, and can contain one or 
 All operators must be wrapped in a Pipe. In order to handle multiple files and/or objects, multiple `Pipes` should be combined into a
 Pipeline.
 
-Below is an example of a Pipe constructed of a CSVExtractor, and three custom transformers:
+Below is an example of a Pipe constructed of a CSVExtractor and three custom transformers:
 
 .. code-block:: python
 

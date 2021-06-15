@@ -19,7 +19,7 @@ The Normalizer transformer is used to shift the mean of an input pandas DataFram
 Custom Transformers
 ===================
 
-You may very often need to make your own custom transformer which will be a superclass of
+You may often need to make your own custom transformer which will be a superclass of
 TransformOperator. You need to define your own ``transform`` method that transforms the data and
 returns it as the same datatype.
 

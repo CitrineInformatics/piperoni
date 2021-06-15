@@ -67,7 +67,8 @@ Take an example CSV that looks like the following:
      - blue
      - 204
 
-The CSV is saved in a file in the root directory called "color.csv". The following is a walk through example of how to extract the CSV, manipulate it so that each color is a row, and save the csv to a new file.
+The CSV is saved in a file in the root directory called "color.csv".
+The following is a walk-through example of how to extract the CSV, manipulate it so that each color is a row, and save the csv to a new file.
 
 
 .. code-block:: python

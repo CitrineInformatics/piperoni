@@ -4,9 +4,9 @@
 Extractors
 ==========
 
-Extractors are operators that read data from files. The are essentially Casters because the input
-is always a string, and the output is usually another datatype. Below are examples of using
-extractors in :ref:`Pipe <pipes>` objects.
+Extractors are operators that read data from files.
+They are essentially Casters because the input is always a string, and the output is usually another datatype.
+Below are examples of using extractors in :ref:`Pipe <pipes>` objects.
 
 CSVExtractor
 ============
@@ -65,7 +65,7 @@ The JSONExtractor is used to read a json file and return the data in a pandas Da
 Custom Extractors
 =================
 
-You may very often need to make your own custom extractor which will be a superclass of any of the
+You may often need to make your own custom extractor which will be a superclass of any of the
 above classes or the base FileExtractor. You need to define your own ``transform`` method that reads
 the data, transforms it, and returns it in some fashion.
 

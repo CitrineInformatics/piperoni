@@ -4,7 +4,8 @@
 Logging
 =======
 
-All Pipe Objects have Logs. You can customize log location on instantiation of the Pipe object
+All Pipe objects have logs.
+You can customize log location on instantiation of the Pipe object
 using the logging_path attribute. Logging levels can also be set by stream_logging_level and
 file_logging_level attributes.
 

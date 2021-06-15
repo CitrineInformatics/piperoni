@@ -18,7 +18,7 @@ Piperoni allows you to:
 - Chain custom and built-in :ref:`Operators <operators>` together to transform data.
 - Use custom or built-in :ref:`Extractors <extractors>` to pull data from any format and transform it.
 - Use custom or built-in :ref:`Transformers <transformers>` to manipulate data for featurization, normalization, etc.
-- Create custom :ref:`Casters <casters>` to explicitly cast from one datatype to another (e.g. dict to pandas DataFrame).
+- Create custom :ref:`Casters <casters>` to explicitly cast from one datatype to another (e.g., dict to pandas DataFrame).
 - :ref:`Log <logging>` every operation before and after transformation.
 - Converge and split many :ref:`Pipes <pipes>` to form a :ref:`Pipeline <pipelines>`.
 
