@@ -21,13 +21,13 @@ Detailed instructions on installation and usage can be found in the complete [pi
 
 [The following best practices are required for contributing.](CONTRIBUTING.md)
 
-In this repo, we follow PEP8 standards (using Black) and include Docstrings in all of work.
+In this repo, we follow PEP8 standards (using Black) and include Docstrings in all of our work.
 
 All functions should have unit testing.
 
 ## Best Practices
 
-- Never use branching code in a `Pipeline` (e.g. if, else) without an explicit warning or failure. Particularly, do not use branching if the branches give rise to same or similar data.
+- Never use branching code in a `Pipeline` (e.g., if, else) without an explicit warning or failure. Particularly, do not use branching if the branches give rise to same or similar data.
 
 - Do not use `deepcopy()` in any operators; this will cause unexpected behavior.
 
@@ -35,11 +35,11 @@ All functions should have unit testing.
 
 - Stuck? Piperoni logs every transformation! Just set it to debug mode!
 
-- Have intermediate states be optionally output by using `Checkpoints`
+- Have intermediate states be optionally output by using `Checkpoints`.
 
-- Do not use nestled Types when defining Types in your Operators (e.g. `Dict` **not** `Dict[str, str]`)
+- Do not use nestled Types when defining Types in your Operators (e.g. `Dict` **not** `Dict[str, str]`).
 
-- Avoid hidden-states / adopt functional programming practices whenever possible
+- Avoid hidden-states / adopt functional programming practices whenever possible.
 
 - Avoid multiple versions of files for optioning. Adopt argparse or similar instead whenever possible.
 
@@ -51,9 +51,9 @@ All functions should have unit testing.
 
 ## Flagging Bugs and Requesting New Features
 
-We funnel Bugs and Feature requests through Github issues. Create a new issue and select Bug Report or Feature Request (If you have neither a bug or feature request, open a regular issue). Add a concise title, fill in the template, and submit the issue.
+We funnel Bugs and Feature requests through Github issues. Create a new issue and select Bug Report or Feature Request. If you have neither a bug or feature request, open a regular issue.. Add a concise title, fill in the template, and submit the issue.
 
 ## Citations
 
-Example Band Gap data used in the example are from: Strehlow, W. H., & Cook, E. L. (1973). Compilation of energy band gaps in elemental and binary compound semiconductors and insulators. Journal of Physical and Chemical Reference Data, 2(1), 163-200.
+Example Band Gap data used in the example are from: Strehlow, W. H., & Cook, E. L. (1973). Compilation of energy band gaps in elemental and binary compound semiconductors and insulators. _Journal of Physical and Chemical Reference Data_, 2(1), 163-200.
 
