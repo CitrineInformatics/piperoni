@@ -315,10 +315,10 @@ class Pipeline:
                     + "\n"
                 )
                 if step.__doc__:
-                    description += step.__doc__ + "\n\n"
+                    description += step.__doc__.strip() + "\n\n"
             return description
         elif isinstance(obj, BaseOperator):
-            return obj.__doc__
+            return obj.__doc__.strip()
         elif obj in self.raw_inputs:
             return obj
         elif obj in set(self.all_outputs_list):
