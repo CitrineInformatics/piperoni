@@ -5,6 +5,7 @@ Piperoni is a lightweight ETL framework for any data type, which allows you to m
 
 Piperoni allows you to make and track atomic data transformations, ensures expected types are being passed from transformation to transformation, and allows you to easily see the state of the data at any point in time. Piperoni is a great tool for collaborative data pipelines, where visibility into data transformations is key.
 
+
 # Getting Started
 
 `piperoni` is a framework for ETL and data pipeline work. To get started, first install `piperoni`:
