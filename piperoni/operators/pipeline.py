@@ -212,15 +212,15 @@ class Pipeline:
                 "source": self._determine_object_id_for_dagre_node_label(src),
             }
             if full and isinstance(target, Pipe):
-                edge[
-                    "target"
-                ] = self._determine_object_id_for_dagre_node_label(
-                    target.steps[0]
+                edge["target"] = (
+                    self._determine_object_id_for_dagre_node_label(
+                        target.steps[0]
+                    )
                 )
             else:
-                edge[
-                    "target"
-                ] = self._determine_object_id_for_dagre_node_label(target)
+                edge["target"] = (
+                    self._determine_object_id_for_dagre_node_label(target)
+                )
             edges.append(edge)
             if target not in visited:
                 output_dict_key = target
