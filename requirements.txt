@@ -3,7 +3,7 @@ pandas==1.2.3
 xlrd==1.2.0
 pytest==6.2.2
 pre-commit==2.11.1
-black==20.8b1
+black==24.3.0
 sphinx==3.5.3
 numpydoc==1.1.0
 dagre-py==0.1.6
