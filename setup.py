@@ -23,9 +23,9 @@ setup(
     author='Citrine Informatics',
     packages=find_packages(),
     install_requires=[
-        "pyyaml<6,>=5.4",
-        "pandas>=1.2,<2",
-        "xlrd==1.2.0",
+        "pyyaml==6.0.2",
+        "pandas==2.2.3",
+        "xlrd==2.0.1",
         "dagre-py==0.1.6"
     ],
     classifiers=[
