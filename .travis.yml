@@ -1,6 +1,6 @@
 language: python
 python:
-- '3.11'
+- '3.10'
 install:
 - pip install -U -r requirements.txt
 - pip install --no-deps -e .
@@ -21,7 +21,7 @@ deploy:
   local_dir: "./docs/build/html/"
   on:
     branch: 'main'
-    python: '3.11' # only need this to run once
+    python: '3.10' # only need this to run once
 - provider: pypi
   user: CitrineInformatics
   password: "$PYPI_PASSWORD"
