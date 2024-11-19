@@ -26,7 +26,8 @@ setup(
         "pyyaml==6.0.2",
         "pandas==2.2.3",
         "xlrd==2.0.1",
-        "dagre-py==0.1.6"
+        "dagre-py==0.1.6",
+        "openpyxl==3.1.5",
     ],
     classifiers=[
         'Programming Language :: Python :: 3',

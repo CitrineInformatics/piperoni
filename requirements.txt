@@ -1,10 +1,10 @@
 pyyaml==6.0.2
 pandas==2.2.3
 xlrd==2.0.1
-pytest==6.2.2
+pytest==8.3.3
 pre-commit==2.11.1
 black==24.10.0
 sphinx==3.5.3
 numpydoc==1.1.0
 dagre-py==0.1.6
-openpyxl==3.0.7
+openpyxl==3.1.5
