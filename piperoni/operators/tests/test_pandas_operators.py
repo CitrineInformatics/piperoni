@@ -49,10 +49,10 @@ class TestPandasOperators:
     def ref_test_concat_dataframe(self) -> pd.DataFrame:
         data = {
             "uid": ["a", "b", "c", "d", "e", "f"],
-            "alpha": [232.0, 67.8, 2.5, 189.8, np.NaN, np.NaN],
-            "bravo": ["hello", "world", "beep", "boop", np.NaN, np.NaN],
-            "charlie": [np.NaN, np.NaN, np.NaN, np.NaN, True, False],
-            "delta": [np.NaN, np.NaN, np.NaN, np.NaN, 1, 3],
+            "alpha": [232.0, 67.8, 2.5, 189.8, np.nan, np.nan],
+            "bravo": ["hello", "world", "beep", "boop", np.nan, np.nan],
+            "charlie": [np.nan, np.nan, np.nan, np.nan, True, False],
+            "delta": [np.nan, np.nan, np.nan, np.nan, 1, 3],
         }
         return pd.DataFrame(data)
 
