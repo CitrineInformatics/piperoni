@@ -23,14 +23,14 @@ setup(
     author='Citrine Informatics',
     packages=find_packages(),
     install_requires=[
-        "pyyaml<6,>=5.4",
-        "pandas>=1.2,<2",
-        "xlrd==1.2.0",
-        "dagre-py==0.1.6"
+        "pyyaml==6.0.2",
+        "pandas==2.2.3",
+        "xlrd==2.0.1",
+        "dagre-py==0.1.6",
+        "openpyxl==3.1.5",
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
 )

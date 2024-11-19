@@ -1,7 +1,6 @@
 language: python
 python:
-- '3.7'
-- '3.8'
+- '3.9'
 install:
 - pip install -U -r requirements.txt
 - pip install --no-deps -e .
@@ -9,7 +8,6 @@ script:
 - pytest piperoni
 - black --check piperoni
 - cd docs; make html; cd ..;
-- touch ./docs/build/html/.nojekyll
 # only run the validate-version-bump.sh script on PR builds against develop, since those have access to a "develop" reference to git show the version
 # following https://docs.travis-ci.com/user/environment-variables/#convenience-variables
 # the pull request isn't set to true if its a PR; its just set to false if its not.
@@ -22,7 +20,7 @@ deploy:
   local_dir: "./docs/build/html/"
   on:
     branch: 'main'
-    python: '3.7' # only need this to run once
+    python: '3.9' # only need this to run once
 - provider: pypi
   user: CitrineInformatics
   password: "$PYPI_PASSWORD"
